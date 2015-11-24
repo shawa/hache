@@ -1,6 +1,5 @@
 import os
 import pickle
-from hashlib import sha1
 
 CACHE_DIR = 'hache_cache'
 
@@ -35,8 +34,7 @@ def hache(function):
             pickle.dump(obj, f)
 
     def _compute_key(*args, **kwargs):
-        pre_hashed_key = _function.__name__ + str(args) + str(kwargs)
-        return sha1(bytes(pre_hashed_key, 'utf-8')).hexdigest()
+        return hex(hash(_function.__name__ + str(args) + str(kwargs)))
 
     def _cacheing_function(*args, **kwargs):
         '''a cacheing version of the original function.
