@@ -1,6 +1,5 @@
 import os
 import pickle
-import time
 from hashlib import sha1
 
 CACHE_DIR = 'hache_cache'
