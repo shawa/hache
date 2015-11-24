@@ -35,7 +35,11 @@ def hache(function):
         with open('{}/{}'.format(CACHE_DIR, key), 'wb') as f:
             pickle.dump(obj, f)
 
-    def _cacheing_function(*args):
+    def _compute_key(*args, **kwargs):
+        pre_hashed_key = _function.__name__ + str(args) + str(kwargs)
+        return sha1(bytes(pre_hashed_key, 'utf-8')).hexdigest()
+
+    def _cacheing_function(*args, **kwargs):
         '''a cacheing version of the original function.
         `args`, along with the original function's __name__ name are
         stringified and hashed.
@@ -43,13 +47,12 @@ def hache(function):
         the file at that name are unpickled and returned. Otherwise, the
         function will be evaluated and the results stored for the next time.'''
 
-        pre_hashed_key = bytes(str(args) + _function.__name__, 'utf-8')
-        key = sha1(pre_hashed_key).hexdigest()
+        key = _compute_key(args, kwargs)
 
         if _cache_contains(key):
             result = _cache_load(key)
         else:
-            result = _function(*args)
+            result = _function(*args, **kwargs)
             _cache_store(key, result)
 
         return result
@@ -61,15 +64,15 @@ if __name__ == '__main__':
     @hache
     def f(x, y, z):
         time.sleep(5)
-        return 'Wait?'
+        return x, y, z
 
     @hache
-    def g(x, y, z):
+    def g(x, y, z, foo='bar', fizz='buzz'):
         time.sleep(5)
-        return 'No need to wait :)'
+        return x, y, z, foo, fizz
 
     for _ in range(10):
-        print(g(1, 2, 3))
+        print(g(1, 2, 3, foo='bing'))
 
     for _ in range(10):
         print(f(1, 2, 3))
