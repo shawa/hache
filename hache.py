@@ -12,27 +12,27 @@ def hache(function):
 
     _function = function
 
-    def _cache_load(hash):
-        '''unpickle the object stored in the cache at the given hash
-        hash: hash whose contents to read'''
+    def _cache_load(key):
+        '''unpickle the object stored in the cache at the given key
+        key: key whose files contents to unpickle'''
 
-        with open('{}/{}' .format(CACHE_DIR, hash), 'rb') as f:
+        with open('{}/{}' .format(CACHE_DIR, key), 'rb') as f:
             result = pickle.load(f)
 
         return result
 
-    def _cache_contains(hash):
-        '''return true if the cache contains a file whose name is `hash`
-        hash: hash to look up'''
+    def _cache_contains(key):
+        '''return true if the cache contains a file whose name is `key`
+        key: key to look up'''
 
-        files = os.listdir(CACHE_DIR)
-        return hash in files
+        file_names = os.listdir(CACHE_DIR)
+        return key in file_names
 
-    def _cache_store(filename, obj):
-        '''pickle the given object in the given filename
-        filename: filename (i.e. key) at which to store the object'''
+    def _cache_store(key, obj):
+        '''pickle the given object in the given key
+        key: key (i.e. filename) at which to store the object'''
 
-        with open('{}/{}'.format(CACHE_DIR, filename), 'wb') as f:
+        with open('{}/{}'.format(CACHE_DIR, key), 'wb') as f:
             pickle.dump(obj, f)
 
     def _cacheing_function(*args):
@@ -43,14 +43,14 @@ def hache(function):
         the file at that name are unpickled and returned. Otherwise, the
         function will be evaluated and the results stored for the next time.'''
 
-        prehash = bytes(str(args) + _function.__name__, 'utf-8')
-        hash = sha1(prehash).hexdigest()
+        pre_hashed_key = bytes(str(args) + _function.__name__, 'utf-8')
+        key = sha1(pre_hashed_key).hexdigest()
 
-        if _cache_contains(hash):
-            result = _cache_load(hash)
+        if _cache_contains(key):
+            result = _cache_load(key)
         else:
             result = _function(*args)
-            _cache_store(hash, result)
+            _cache_store(key, result)
 
         return result
 
