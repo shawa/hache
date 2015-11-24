@@ -3,7 +3,8 @@ import pickle
 import time
 from hashlib import sha1
 
-CACHE_DIR = 'cache'
+CACHE_DIR = 'hache_cache'
+
 
 def hache(function):
     ''' produce a cacheing version of the given function. This amounts to a
