@@ -28,4 +28,4 @@ Following calls are redirected to reading the result from disk as opposed to doi
 * `sha1` overhead for each function call (is hashing really necessary?)
 * I/O overhead for each function call (use a ramdisk? sqlite?)
 * Only functions which return pickleable objects can be `hache`d.
-* I *think* this works as expected *il manque des tests*.
+* I *think* this works as expected, *mais il manque des tests*.
