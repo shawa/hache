@@ -16,7 +16,6 @@ def f(x, y, z):
 ```
 
 ## Pitfalls
-* `sha1` overhead for each function call
+* `sha1` overhead for each function call (is hashing really necessary?)
 * I/O overhead for each function call (use a ramdisk?)
-* I think this works as expected.
-Hache has no non-stl dependencies.
+* I *think* this works as expected *il manque des tests*.
