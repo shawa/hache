@@ -58,22 +58,3 @@ def hache(function):
         return result
 
     return _cacheing_function
-
-
-if __name__ == '__main__':
-    @hache
-    def f(x, y, z):
-        time.sleep(5)
-        return x, y, z
-
-    @hache
-    def g(x, y, z, foo='bar', fizz='buzz'):
-        time.sleep(5)
-        return x, y, z, foo, fizz
-
-    for _ in range(10):
-        print(g(1, 2, 3, foo='bing'))
-
-    for _ in range(10):
-        print(f(1, 2, 3))
-
