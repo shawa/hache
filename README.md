@@ -24,12 +24,13 @@ The first call is evaluated and cached to disk.
 Following calls are redirected to reading the result from disk as opposed to doing the `really intensive computation`.
 
 
-## Pitfalls
+## Pitfalls / Todo
 * `hash` overhead for each function call (is hashing really necessary?)
+  * Profiling needs to be done
+
 * I/O overhead for each function call (use a ramdisk? sqlite?)
 * Only functions which return pickleable objects can be `hache`d.
-* Takes into account only the functions' `__name__` property to differentiate between them. That is to say that if you define another function (i.e. method of a different object, nested etc) the behaviour of this thing is undefined.
-* I *think* this works as expected, *mais il manque des tests*.
+* As I later discovered, no support for `multiprocessing` due to conflicts with `pickle`. This will be investigated
 
 
 `hache` is under the GPL

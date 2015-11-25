@@ -34,7 +34,7 @@ def hache(function):
             pickle.dump(obj, f)
 
     def _compute_key(*args, **kwargs):
-        return hex(hash(_function.__name__ + str(args) + str(kwargs)))
+        return hex(hash(repr(_function) + repr(args) + repr(kwargs)))
 
     def _cacheing_function(*args, **kwargs):
         '''a cacheing version of the original function.
